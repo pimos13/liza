@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вопрос</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #ffd6e3;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .box {
+      text-align: center;
+      width: 100%;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #8a0037;
+      font-size: 32px;
+      margin-bottom: 80px;
+    }
+
+    .buttons {
+      position: relative;
+      height: 220px;
+    }
+
+    button {
+      width: 160px;
+      height: 60px;
+      border: none;
+      border-radius: 10px;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+      position: absolute;
+    }
+
+    #yes {
+      background: #6b1730;
+      left: calc(50% - 180px);
+      top: 70px;
+    }
+
+    #no {
+      background: #3f3f3f;
+      left: calc(50% + 20px);
+      top: 70px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 25px;
+        margin-bottom: 50px;
+      }
+
+      button {
+        width: 120px;
+        height: 55px;
+        font-size: 22px;
+      }
+
+      #yes {
+        left: 15%;
+      }
+
+      #no {
+        left: 55%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h1 id="title">с Лизой пойдешь гулять?</h1>
+
+    <div class="buttons">
+      <button id="yes">Да</button>
+      <button id="no">Нет</button>
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const title = document.getElementById("title");
+
+    function moveNoButton() {
+      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+
+      const x = Math.random() * maxX + 10;
+      const y = Math.random() * maxY + 10;
+
+      noBtn.style.position = "fixed";
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    noBtn.addEventListener("mouseover", moveNoButton);
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("mousedown", function(e) {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    noBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      moveNoButton();
+      return false;
+    });
+
+    noBtn.addEventListener("touchstart", function(e) {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    yesBtn.addEventListener("click", function() {
+      title.innerHTML = "Супер! Тогда пиши в какой день будет удобно";
+      yesBtn.style.display = "none";
+      noBtn.style.display = "none";
+    });
+  </script>
+</body>
+</html>
