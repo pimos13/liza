@@ -1,135 +1,209 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Вопрос</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тест на скуку</title>
 
   <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: #ffd6e3;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    * {
+      box-sizing: border-box;
     }
 
-    .box {
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at 20% 20%, #ffd6e7 0, transparent 35%),
+        radial-gradient(circle at 80% 70%, #c9e7ff 0, transparent 35%),
+        #f7f7fb;
+      color: #20222a;
+    }
+
+    .card {
+      width: min(92vw, 560px);
+      padding: 42px 30px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.88);
+      box-shadow: 0 20px 70px rgba(40, 45, 70, .15);
       text-align: center;
-      width: 100%;
-      padding: 20px;
+      backdrop-filter: blur(12px);
     }
 
     h1 {
-      color: #8a0037;
-      font-size: 32px;
-      margin-bottom: 80px;
+      margin: 0 0 12px;
+      font-size: clamp(30px, 6vw, 48px);
+    }
+
+    p {
+      margin: 0 0 30px;
+      color: #6d7080;
+      font-size: 17px;
+      line-height: 1.5;
     }
 
     .buttons {
       position: relative;
-      height: 220px;
+      min-height: 70px;
     }
 
     button {
-      width: 160px;
-      height: 60px;
-      border: none;
-      border-radius: 10px;
-      font-size: 24px;
-      color: white;
+      border: 0;
+      border-radius: 16px;
+      padding: 16px 28px;
+      font-size: 18px;
+      font-weight: 700;
       cursor: pointer;
-      position: absolute;
+      transition: transform .18s ease, box-shadow .18s ease;
     }
 
-    #yes {
-      background: #6b1730;
-      left: calc(50% - 180px);
-      top: 70px;
+    #yesBtn {
+      background: #20222a;
+      color: white;
+      box-shadow: 0 10px 25px rgba(32, 34, 42, .22);
     }
 
-    #no {
-      background: #3f3f3f;
-      left: calc(50% + 20px);
-      top: 70px;
+    #yesBtn:hover {
+      transform: translateY(-3px) scale(1.03);
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 25px;
-        margin-bottom: 50px;
-      }
+    #noBtn {
+      position: fixed;
+      background: white;
+      color: #20222a;
+      border: 2px solid #e7e7ee;
+      z-index: 10;
+    }
 
-      button {
-        width: 120px;
-        height: 55px;
-        font-size: 22px;
-      }
+    .hidden {
+      display: none;
+    }
 
-      #yes {
-        left: 15%;
-      }
+    .challenge {
+      margin-top: 25px;
+      padding: 22px;
+      border-radius: 20px;
+      background: #f5f5fa;
+      font-size: 20px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
 
-      #no {
-        left: 55%;
-      }
+    #newTask {
+      margin-top: 18px;
+      background: #ff5e8a;
+      color: white;
+    }
+
+    .small {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #999baa;
     }
   </style>
 </head>
 
 <body>
-  <div class="box">
-    <h1 id="title">с Лизой пойдешь гулять?</h1>
 
-    <div class="buttons">
-      <button id="yes">Да</button>
-      <button id="no">Нет</button>
-    </div>
-  </div>
+  <main class="card">
+    <section id="questionScreen">
+      <h1>Катя, тебе скучно на работе? 👀</h1>
+      <p>Только отвечай честно. Это очень серьёзное исследование.</p>
+
+      <div class="buttons">
+        <button id="yesBtn">Да 😭</button>
+      </div>
+    </section>
+
+    <section id="funScreen" class="hidden">
+      <h1>Отлично 😈</h1>
+      <p>Значит, официально разрешаю тебе отвлечься на минуту.</p>
+
+      <div class="challenge" id="challenge">
+        Нажми кнопку и получи абсолютно бесполезное задание.
+      </div>
+
+      <button id="newTask">Дай мне задание</button>
+
+      <div class="small">
+        Работодатель об этом сайте ничего не знает.
+      </div>
+    </section>
+  </main>
+
+  <button id="noBtn">Нет, я работаю 😇</button>
 
   <script>
-    const noBtn = document.getElementById("no");
-    const yesBtn = document.getElementById("yes");
-    const title = document.getElementById("title");
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const questionScreen = document.getElementById('questionScreen');
+    const funScreen = document.getElementById('funScreen');
+    const challenge = document.getElementById('challenge');
+    const newTask = document.getElementById('newTask');
+
+    const tasks = [
+      'Посмотри на самого занятого человека в офисе и загадочно кивни.',
+      'Открой калькулятор и введи 5318008. Ты знаешь, что делать дальше.',
+      'Сделай вид, что срочно что-то вспомнил. Через 10 секунд забудь.',
+      'Попробуй ровно минуту не открывать ни один рабочий чат.',
+      'Найди вокруг себя 5 предметов одного цвета.',
+      'Придумай своему начальнику имя супергероя.',
+      'Напиши другу: «Всё идёт по плану». Ничего больше не объясняй.',
+      'Выпей воды так, будто это очень важная бизнес-задача.',
+      'Поставь таймер на 30 секунд и просто смотри в окно.',
+      'Оцени сегодняшний рабочий день по шкале от «ну ладно» до «спасите».'
+    ];
 
     function moveNoButton() {
-      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+      const padding = 18;
+      const btnWidth = noBtn.offsetWidth;
+      const btnHeight = noBtn.offsetHeight;
 
-      const x = Math.random() * maxX + 10;
-      const y = Math.random() * maxY + 10;
+      const maxX = window.innerWidth - btnWidth - padding;
+      const maxY = window.innerHeight - btnHeight - padding;
 
-      noBtn.style.position = "fixed";
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
+      const x = Math.max(padding, Math.random() * maxX);
+      const y = Math.max(padding, Math.random() * maxY);
+
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
     }
 
-    noBtn.addEventListener("mouseover", moveNoButton);
-    noBtn.addEventListener("mouseenter", moveNoButton);
-    noBtn.addEventListener("mousedown", function(e) {
-      e.preventDefault();
+    function placeNoButtonInitially() {
+      const yesRect = yesBtn.getBoundingClientRect();
+      noBtn.style.left = Math.min(
+        window.innerWidth - noBtn.offsetWidth - 20,
+        yesRect.right + 18
+      ) + 'px';
+
+      noBtn.style.top = yesRect.top + 'px';
+    }
+
+    noBtn.addEventListener('mouseenter', moveNoButton);
+    noBtn.addEventListener('touchstart', (event) => {
+      event.preventDefault();
       moveNoButton();
     });
 
-    noBtn.addEventListener("click", function(e) {
-      e.preventDefault();
-      moveNoButton();
-      return false;
+    yesBtn.addEventListener('click', () => {
+      questionScreen.classList.add('hidden');
+      funScreen.classList.remove('hidden');
+      noBtn.classList.add('hidden');
     });
 
-    noBtn.addEventListener("touchstart", function(e) {
-      e.preventDefault();
-      moveNoButton();
+    newTask.addEventListener('click', () => {
+      const task = tasks[Math.floor(Math.random() * tasks.length)];
+      challenge.textContent = task;
     });
 
-    yesBtn.addEventListener("click", function() {
-      title.innerHTML = "Супер! Тогда пиши в какой день будет удобно";
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
-    });
+    window.addEventListener('load', placeNoButtonInitially);
+    window.addEventListener('resize', placeNoButtonInitially);
   </script>
+
 </body>
 </html>
